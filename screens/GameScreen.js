@@ -9,6 +9,7 @@ import Card from "../components/ui/Card";
 import InstructionText from "../components/ui/InstructionText";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
+import GuessLogItems from "../components/game/GuessLogItems";
 
 function GenerateRandomBetween(min, max, exclude) {
   const randomNumber = Math.floor(Math.random() * (max - min)) + min;
@@ -26,7 +27,7 @@ let maxBoundary = 100;
 function GameScreen({ userNumber, OnGameOver }) {
   const initialGuess = GenerateRandomBetween(1, 100, userNumber);
   const [currentGuess, SetCurrentGuess] = useState(initialGuess);
-  const [guessRounds,SetGuessRounds] = useState([initialGuess]);
+  const [guessRounds, SetGuessRounds] = useState([initialGuess]);
 
   useEffect(() => {
     console.log(
@@ -35,7 +36,7 @@ function GameScreen({ userNumber, OnGameOver }) {
       "current guess : " + currentGuess
     );
     if (currentGuess === userNumber) {
-      OnGameOver();
+      OnGameOver(guessRounds.length);
     }
   }, [userNumber, OnGameOver, currentGuess]);
 
@@ -63,8 +64,10 @@ function GameScreen({ userNumber, OnGameOver }) {
       currentGuess
     );
     SetCurrentGuess(newRandomNumber);
-    SetGuessRounds(prevGuessRounds => [...prevGuessRounds,newRandomNumber]);
+    SetGuessRounds((prevGuessRounds) => [newRandomNumber, ...prevGuessRounds]);
   }
+
+  const guessRoundsListLength = guessRounds.length;
 
   return (
     <View style={styles.container}>
@@ -89,8 +92,17 @@ function GameScreen({ userNumber, OnGameOver }) {
           </View>
         </View>
       </Card>
-      <View>
-        <FlatList data={guessRounds} renderItem={(itemdata) => <Text>{itemdata.item}</Text>} keyExtractor={(item)=> item} />
+      <View style={styles.FlatListContainer}>
+        <FlatList
+          data={guessRounds}
+          renderItem={(itemdata) => (
+            <GuessLogItems
+              roundNumber={guessRoundsListLength - itemdata.index}
+              guess={itemdata.item}
+            />
+          )}
+          keyExtractor={(item) => item}
+        />
       </View>
     </View>
   );
@@ -118,5 +130,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 60,
     gap: 20,
+  },
+  FlatListContainer: {
+    flex: 1,
+    padding: 16,
   },
 });
