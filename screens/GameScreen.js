@@ -29,6 +29,7 @@ function GameScreen({ userNumber, OnGameOver }) {
   const [currentGuess, SetCurrentGuess] = useState(initialGuess);
   const [guessRounds, SetGuessRounds] = useState([initialGuess]);
 
+
   useEffect(() => {
     console.log(
       "min boundary : " + minBoundary,
@@ -69,29 +70,35 @@ function GameScreen({ userNumber, OnGameOver }) {
 
   const guessRoundsListLength = guessRounds.length;
 
+  let content = (
+    <>
+    <NumberContainer>{currentGuess}</NumberContainer>
+
+<Card>
+  <InstructionText style={styles.instructionText}>
+    Higher or Lower?
+  </InstructionText>
+
+  <View style={styles.ButtonsContainer}>
+    <View style={styles.ButtonContainer}>
+      <PrimaryButton onPress={NextGuessHandler.bind(this, "higher")}>
+        <Ionicons name="add" size={24} color="white" />
+      </PrimaryButton>
+    </View>
+    <View style={styles.ButtonContainer}>
+      <PrimaryButton onPress={NextGuessHandler.bind(this, "lower")}>
+        <Ionicons name="remove" size={24} color="white" />
+      </PrimaryButton>
+    </View>
+  </View>
+</Card>
+    </>
+  );
+
   return (
     <View style={styles.container}>
       <Title>Opponent's Guess</Title>
-      <NumberContainer>{currentGuess}</NumberContainer>
-
-      <Card>
-        <InstructionText style={styles.instructionText}>
-          Higher or Lower?
-        </InstructionText>
-
-        <View style={styles.ButtonsContainer}>
-          <View style={styles.ButtonContainer}>
-            <PrimaryButton onPress={NextGuessHandler.bind(this, "higher")}>
-              <Ionicons name="add" size={24} color="white" />
-            </PrimaryButton>
-          </View>
-          <View style={styles.ButtonContainer}>
-            <PrimaryButton onPress={NextGuessHandler.bind(this, "lower")}>
-              <Ionicons name="remove" size={24} color="white" />
-            </PrimaryButton>
-          </View>
-        </View>
-      </Card>
+      {content}
       <View style={styles.FlatListContainer}>
         <FlatList
           data={guessRounds}
@@ -110,10 +117,13 @@ function GameScreen({ userNumber, OnGameOver }) {
 
 export default GameScreen;
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
+    alignItems:"center"
   },
   ButtonsContainer: {
     flexDirection: "row",

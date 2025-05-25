@@ -1,17 +1,28 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions, useWindowDimensions } from "react-native";
 import Colors from "../../utils/colors";
 
 function NumberContainer({ children }) {
+
+  const { width,height } = useWindowDimensions();
+
+  const numberContainerHeight =  height < 360? 50:100;
+
   return (
     <View style={styles.outerContainer}>
-      <View style={styles.innerContainer}>
+      <View style={[styles.innerContainer,{height:numberContainerHeight}]}>
         <Text style={styles.number}>{children}</Text>
       </View>
     </View>
   );
 }
 
+
+
 export default NumberContainer;
+
+const deviceWidth = Dimensions.get('window').width;
+
+
 
 const styles = StyleSheet.create({
   outerContainer: {
@@ -20,7 +31,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     borderWidth: 3,
     borderColor: Colors.customYellow,
-    marginTop: 40,
+    marginTop: deviceWidth>720? 40:20,
     alignItems: "center",
     borderRadius: 8,
     width: 200,

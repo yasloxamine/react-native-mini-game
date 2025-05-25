@@ -3,6 +3,8 @@ import {ImageBackground, StyleSheet, SafeAreaView} from 'react-native';
 import StartGameScreen from './screens/StartGameScreen';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import { StatusBar } from 'expo-status-bar';
+
 import GameScreen from './screens/GameScreen';
 import GameOverScreen from "./screens/GameOverScreen";
 
@@ -27,7 +29,7 @@ export default function App() {
   if(!fontsLoaded){
     return <AppLoading />;
   }
-
+  
   function PickedNumberHandler(pickedNumber){
     SetUserNumber(pickedNumber);
     SetGameIsOver(false);
@@ -53,6 +55,8 @@ export default function App() {
 
   return(
 
+    <>
+    <StatusBar style="light" />
     <LinearGradient colors={[Colors.customOrange,Colors.customYellow]} style={styles.rootContainer}>
       <ImageBackground imageStyle={styles.imageBackground} style={styles.rootContainer} resizeMode="cover" source={require("./assets/images/bgimage.png")}>
       <SafeAreaView style={styles.rootContainer}>
@@ -60,6 +64,7 @@ export default function App() {
       </SafeAreaView>
   </ImageBackground>
   </LinearGradient>
+  </>
 
   );
 }

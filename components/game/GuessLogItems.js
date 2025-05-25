@@ -1,4 +1,4 @@
-import {View,Text, StyleSheet} from "react-native";
+import {View,Text, StyleSheet, Dimensions} from "react-native";
 import Colors from "../../utils/colors";
 
 function GuessLogItems({roundNumber,guess}){
@@ -16,6 +16,8 @@ return (
 
 export default GuessLogItems;
 
+const deviceWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
     container:{
       flexDirection:"row",
@@ -24,9 +26,10 @@ const styles = StyleSheet.create({
       backgroundColor:Colors.customYellow,
       borderColor:"black",
       borderWidth:1,
-      marginVertical:8,
+      marginVertical:5,
       elevation:8,
       borderRadius:16,
+      width: deviceWidth>720? 300:250,
       flex:1,
       shadowRadius:5,
       shadowOpacity:0.5,
